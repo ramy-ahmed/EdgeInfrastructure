@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  registryRepo:
+    image: faredge/registry-repo:v1
+    container_name: registryRepo
+    ports:
+      - 8061:8061
+    environment:
+      port: 8061
+  deviceRegistry:
+    image: faredge/device-registry:v1
+    container_name: deviceRegistry
+    depends_on:
+      - registryRepo
+    links:
+      - registryRepo
+    environment:
+      port: 8062
+      uri: registryRepo:8061
+    ports:
+      - 8062:8062
